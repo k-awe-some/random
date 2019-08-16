@@ -1,9 +1,11 @@
 import React from "react";
+import { store } from "./redux/store";
 import "./App.css";
 
 class App extends React.Component {
   render() {
-    return <div>REACT APP</div>;
+    console.log(store);
+    return null;
   }
 }
 
