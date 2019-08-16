@@ -1,4 +1,6 @@
 import React from "react";
+
+import List from "../list/list.component";
 import { addTodoAction } from "../../redux/todos/todo-actions";
 import { store } from "../../redux/store";
 
@@ -15,11 +17,11 @@ class Todos extends React.Component {
         completed: false
       })
     );
-
-    store.getState();
   };
 
   render() {
+    const { todos } = store.getState();
+    console.log(todos);
     return (
       <React.Fragment>
         <h2>To-dos</h2>
@@ -29,6 +31,8 @@ class Todos extends React.Component {
           ref={input => (this.input = input)}
         />
         <button onClick={this.addItem}>Add</button>
+
+        {todos.length === 0 ? <p>Nothing to show</p> : <List items={todos} />}
       </React.Fragment>
     );
   }
