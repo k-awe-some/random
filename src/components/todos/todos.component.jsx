@@ -1,9 +1,9 @@
 import React from "react";
-
+import { connect } from "react-redux";
+import { store } from "../../redux/store";
 import List from "../list/list.component";
 import { generateID } from "../../utils/helpers";
 import { addTodoAction } from "../../redux/todos/todo-actions";
-import { store } from "../../redux/store";
 
 class Todos extends React.Component {
   addItem = event => {
@@ -13,16 +13,16 @@ class Todos extends React.Component {
 
     store.dispatch(
       addTodoAction({
-        id: generateID(0),
+        id: generateID(),
         name,
         completed: false
       })
     );
+    return this.props.todos;
   };
 
   render() {
-    const { todos } = store.getState();
-    console.log(todos);
+    const { todos } = this.props;
     return (
       <React.Fragment>
         <h2>To-dos</h2>
@@ -32,11 +32,19 @@ class Todos extends React.Component {
           ref={input => (this.input = input)}
         />
         <button onClick={this.addItem}>Add</button>
-
-        {todos.length === 0 ? <p>Nothing to show</p> : <List items={todos} />}
+        {todos.length === 0 ? null : <List items={todos} />}
       </React.Fragment>
     );
   }
 }
 
-export default Todos;
+const mapStateToProps = state => {
+  return {
+    todos: state.todos
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(Todos);
