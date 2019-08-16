@@ -1,6 +1,7 @@
 import React from "react";
 
 import List from "../list/list.component";
+import { generateID } from "../../utils/helpers";
 import { addTodoAction } from "../../redux/todos/todo-actions";
 import { store } from "../../redux/store";
 
@@ -12,7 +13,7 @@ class Todos extends React.Component {
 
     store.dispatch(
       addTodoAction({
-        id: 0,
+        id: generateID(0),
         name,
         completed: false
       })
