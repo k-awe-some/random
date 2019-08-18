@@ -1,50 +1,45 @@
 import React from "react";
-import { connect } from "react-redux";
 import { store } from "../../redux/store";
-import List from "../list/list.component";
 import { generateID } from "../../utils/helpers";
 import { addTodoAction } from "../../redux/todos/todo-actions";
 
 class Todos extends React.Component {
+  state = {
+    todo: ""
+  };
+
+  handleInput = event => {
+    this.setState({todo: event.target.value})
+  };
+
   addItem = event => {
     event.preventDefault();
-    const name = this.input.value;
-    this.input.value = "";
+    const {todo} = this.state
 
     store.dispatch(
       addTodoAction({
         id: generateID(),
-        name,
+        todo,
         completed: false
       })
     );
-    return this.props.todos;
+    this.setState({todo:""})
   };
 
   render() {
-    const { todos } = this.props;
     return (
-      <React.Fragment>
+      <>
         <h2>To-dos</h2>
         <input
           type="text"
           placeholder="Add to-do"
-          ref={input => (this.input = input)}
+          value={this.state.todo}
+          onChange={this.handleInput}
         />
         <button onClick={this.addItem}>Add</button>
-        {todos.length === 0 ? null : <List items={todos} />}
-      </React.Fragment>
+      </>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    todos: state.todos
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null
-)(Todos);
+export default Todos;

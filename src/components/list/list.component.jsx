@@ -1,11 +1,14 @@
 import React from "react";
+import {connect} from "react-redux"
 
-const List = items => (
+const List = ({items:{todos}}) => (
   <ul>
-    {items.map(item => (
-      <li key={item.id}>item.name</li>
+    {todos.map(item => (
+      <li key={item.id}>{item.todo}</li>
     ))}
   </ul>
-);
+)
 
-export default List;
+const mapStateToprops = state => ({items:state})
+
+export default connect(mapStateToprops,null)(List);
